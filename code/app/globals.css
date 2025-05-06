@@ -1,0 +1,94 @@
+/* global.css */
+
+/* Importa Tailwind CSS */
+@import 'tailwindcss';
+
+/* Configuración del tema */
+@theme {
+  /* Colores */
+  --color-dark-base: #0D0D11;
+  --color-dark-surface: #1A1A25;
+  --color-text-primary: #E4E4EB;
+  --color-text-secondary: #A6A6B5;
+  --color-border-light: #2A2A3A;
+  --color-blue-primary: #4C6EF5;
+  --color-blue-hover: #3B5BDB;
+  --color-purple-accent: #845EF7;
+  --color-purple-hover: #7048E8;
+  --color-blue-electric: #5EEAD4;
+  --color-success: #2ECC71;
+  --color-error: #E74C3C;
+  --color-warning: #F39C12;
+
+  /* Fuentes */
+  --font-sans: 'Helvetica', sans-serif;
+
+  /* Transiciones */
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
+
+.bg-gradient-blue-purple {
+  background-image: linear-gradient(135deg, #4C6EF5 0%, #845EF7 100%);
+}
+
+/* === Gradiente 2: Cian eléctrico radial (Homepage) === */
+.bg-gradient-dark-cyan {
+  background-image: radial-gradient(circle at top right, #5EEAD4 0%, #1A1A25 100%);
+}
+
+.bg-dark-base {
+  background-color: var(--color-dark-base);
+}
+.bg-dark-surface {
+  background-color: var(--color-dark-surface);
+}
+.text-primary {
+  color: var(--color-text-primary);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.border-light {
+  border-color: var(--color-border-light);
+}
+.bg-blue-primary {
+  background-color: var(--color-blue-primary);
+}
+.bg-purple-accent {
+  background-color: var(--color-purple-accent);
+}
+
+.border-light   { border-color: var(--color-border-light); }
+
+/* === Botones personalizados === */
+.btn-primary {
+  @apply bg-blue text-primary px-4 py-2 rounded-md hover:bg-[color:var(--color-blue-hover)] transition;
+}
+
+.btn-purple {
+  @apply bg-purple text-primary px-4 py-2 rounded-md hover:bg-[color:var(--color-purple-hover)] transition;
+}
+
+/* === Gradientes inspirados en tus imágenes === */
+.bg-gradient-blue-purple {
+  background-image: linear-gradient(135deg, var(--color-blue-primary), var(--color-purple-accent));
+}
+
+.bg-gradient-dark-cyan {
+  background-image: radial-gradient(circle at top right, var(--color-cyan-electric), var(--color-dark-surface));
+}
+
+/* === Ejemplo de header estilizado === */
+.header-hero {
+  @apply text-primary p-10 rounded-xl shadow-lg;
+  background-image: linear-gradient(135deg, var(--color-blue-primary) 0%, var(--color-purple-accent) 100%);
+}
+
+/* === Div con aura glow === */
+.glow-panel {
+  background-color: var(--color-dark-surface);
+  box-shadow: 0 0 30px rgba(132, 94, 247, 0.4), 0 0 10px rgba(76, 110, 245, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
