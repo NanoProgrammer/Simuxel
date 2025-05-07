@@ -1,8 +1,17 @@
-/* global.css */
-
-/* Importa Tailwind CSS */
 @import 'tailwindcss';
+html {
+  font-family: var(--font-space-grotesk);
+}
 
+h1, h2, h3, h4, h5, h6,
+.heading-font {
+  font-family: var(--font-orbitron);
+}
+
+:root {
+  --font-orbitron: 'Orbitron', sans-serif;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+}
 /* Configuración del tema */
 @theme {
   /* Colores */
