@@ -1,103 +1,60 @@
-@import 'tailwindcss';
+/* app/globals.css */
+
+/* 1️⃣ Importa primero los estilos de Tailwind CSS */
+@import "tailwindcss";
+
+/* 2️⃣ Declara aquí TODOS tus design-tokens (colores, fuentes, transiciones) */
+@theme {
+  /* — Fuentes — */
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+  --font-orbitron:     'Orbitron',    sans-serif;
+
+  /* — Colores principales — */
+  --color-blue-primary: #4C6EF5;
+  --color-text-primary: #E4E4EB;
+
+  /* — Nuevas variables de color — */
+  --color-dark-base:      #0D0D11;
+  --color-dark-surface:   #1A1A25;
+  --color-text-secondary: #A6A6B5;
+  --color-border-light:   #2A2A3A;
+
+  /* — Transiciones personalizadas — */
+  --ease-fluid:   cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy:  cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* 3️⃣ Global: aplica la fuente base usando la variable */
 html {
   font-family: var(--font-space-grotesk);
 }
 
+/* 4️⃣ Global: aplica fuente de encabezados */
 h1, h2, h3, h4, h5, h6,
 .heading-font {
   font-family: var(--font-orbitron);
 }
 
-:root {
-  --font-orbitron: 'Orbitron', sans-serif;
-  --font-space-grotesk: 'Space Grotesk', sans-serif;
-}
-/* Configuración del tema */
-@theme {
-  /* Colores */
-  --color-dark-base: #0D0D11;
-  --color-dark-surface: #1A1A25;
-  --color-text-primary: #E4E4EB;
-  --color-text-secondary: #A6A6B5;
-  --color-border-light: #2A2A3A;
-  --color-blue-primary: #4C6EF5;
-  --color-blue-hover: #3B5BDB;
-  --color-purple-accent: #845EF7;
-  --color-purple-hover: #7048E8;
-  --color-blue-electric: #5EEAD4;
-  --color-success: #2ECC71;
-  --color-error: #E74C3C;
-  --color-warning: #F39C12;
-
-  /* Fuentes */
-  --font-sans: 'Helvetica', sans-serif;
-
-  /* Transiciones */
-  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
-  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
-}
-
-.bg-gradient-blue-purple {
-  background-image: linear-gradient(135deg, #4C6EF5 0%, #845EF7 100%);
-}
-
-/* === Gradiente 2: Cian eléctrico radial (Homepage) === */
-.bg-gradient-dark-cyan {
-  background-image: radial-gradient(circle at top right, #5EEAD4 0%, #1A1A25 100%);
-}
-
-.bg-dark-base {
-  background-color: var(--color-dark-base);
-}
-.bg-dark-surface {
-  background-color: var(--color-dark-surface);
-}
-.text-primary {
+/* 5️⃣ Tus componentes con @apply (ya funciona) */
+.btn-primary {
+  @apply px-4 py-2 rounded-md transition;
+  background-color: var(--color-blue-primary);
   color: var(--color-text-primary);
 }
-.text-secondary {
-  color: var(--color-text-secondary);
-}
-.border-light {
-  border-color: var(--color-border-light);
-}
-.bg-blue-primary {
-  background-color: var(--color-blue-primary);
-}
-.bg-purple-accent {
-  background-color: var(--color-purple-accent);
-}
 
-.border-light   { border-color: var(--color-border-light); }
-
-/* === Botones personalizados === */
-.btn-primary {
-  @apply bg-blue text-primary px-4 py-2 rounded-md hover:bg-[color:var(--color-blue-hover)] transition;
-}
-
-.btn-purple {
-  @apply bg-purple text-primary px-4 py-2 rounded-md hover:bg-[color:var(--color-purple-hover)] transition;
-}
-
-/* === Gradientes inspirados en tus imágenes === */
+/* 6️⃣ Gradientes personalizados */
 .bg-gradient-blue-purple {
-  background-image: linear-gradient(135deg, var(--color-blue-primary), var(--color-purple-accent));
+  background-image: linear-gradient(135deg, var(--color-blue-primary), var(--color-text-primary));
 }
 
 .bg-gradient-dark-cyan {
-  background-image: radial-gradient(circle at top right, var(--color-cyan-electric), var(--color-dark-surface));
+  background-image: radial-gradient(circle at top right, var(--color-dark-surface), var(--color-dark-base));
 }
 
-/* === Ejemplo de header estilizado === */
-.header-hero {
-  @apply text-primary p-10 rounded-xl shadow-lg;
-  background-image: linear-gradient(135deg, var(--color-blue-primary) 0%, var(--color-purple-accent) 100%);
-}
-
-/* === Div con aura glow === */
-.glow-panel {
-  background-color: var(--color-dark-surface);
-  box-shadow: 0 0 30px rgba(132, 94, 247, 0.4), 0 0 10px rgba(76, 110, 245, 0.3);
-  border-radius: 1rem;
-  padding: 1.5rem;
-}
+/* 7️⃣ Clases utilitarias basadas en variables */
+.bg-dark-base     { background-color: var(--color-dark-base); }
+.bg-dark-surface  { background-color: var(--color-dark-surface); }
+.text-primary     { color: var(--color-text-primary); }
+.text-secondary   { color: var(--color-text-secondary); }
+.border-light     { border-color: var(--color-border-light); }
+.bg-blue-primary  { background-color: var(--color-blue-primary); }
