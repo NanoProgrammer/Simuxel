@@ -1,65 +1,69 @@
-// Button.tsx
-"use client"; // Este es el archivo que debe ser marcado como cliente.
+import React from "react";
 
-
-type ButtonProps = {
+type Props = {
   children: React.ReactNode;
-  className?: string;
-  href?: string;
-  onClick?: () => void;
-  px?: string;
-  white?: boolean;
-  variant?: "primary" | "purple" | "custom";
-};
+  variant: "outline" | "ghost" | "primary" | "secondary" | "tertiary" | "dark" | "darkPurple" | "darkGradientBorder";
+  size?: "sm" | "md" | "lg";
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({
+export function Button({
   children,
-  className = "",
-  href,
-  onClick,
-  px = "px-8",
-  white = false,
-  variant = "primary",
-}: ButtonProps) => {
-  // Definir la base de las clases
-  const baseClasses =
-    "inline-flex items-center justify-center h-12 font-semibold text-lg rounded-md transition-all duration-300 transform";
+  variant,
+  size = "md",
+  ...props
+}: Props) {
+  const base =
+    "relative font-semibold uppercase tracking-wide text-white transition-all duration-300 ease-in-out rounded-full";
 
-  // Colores de texto y fondo según el color y el modo blanco
-  const textColor = white ? "text-[var(--color-text-primary)]" : "text-[var(--color-dark-base)]";
-  
-  const bgColor =
-    variant === "primary"
-      ? "bg-[var(--color-blue-primary)] hover:bg-[var(--color-blue-hover)]"
-      : variant === "purple"
-      ? "bg-[var(--color-purple-accent)] hover:bg-[var(--color-purple-hover)]"
-      : "bg-transparent border-2 border-[var(--color-border-light)] hover:bg-[var(--color-dark-surface)]";
+  const variants: Record<Props["variant"], string> = {
+    outline:
+      "border border-white border-l-transparent border-r-transparent text-white hover:bg-white hover:text-black",
+    ghost: "bg-transparent text-white hover:bg-white/10",
+    primary:
+      "bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white",
+    secondary: `
+      bg-[var(--color-secondary)] text-white 
+      bg-gradient-to-r from-[var(--color-secondary)] to-[var(--color-tertiary)] transition transition-colors duration-500
+      hover:bg-gradient-to-r hover:from-[var(--color-tertiary)] hover:to-[var(--color-secondary)]
+    `,
+    tertiary: `
+      bg-[var(--color-tertiary)] text-white
+      bg-gradient-to-r from-[var(--color-tertiary)] to-[var(--color-secondary)] transition transition-colors duration-500
+      hover:bg-gradient-to-r hover:from-[var(--color-secondary)] hover:to-[var(--color-tertiary)]
+    `,
+    dark:
+      "bg-[var(--color-dark)] hover:bg-[var(--color-dark-purple)] text-white",
+    darkPurple:
+      "bg-[var(--color-dark-purple)] hover:bg-[var(--color-dark)] text-white",
+    darkGradientBorder: `
+      bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] p-[1px] rounded-full
+      transition-transform duration-300 hover:scale-105
+      shadow-[0_8px_24px_rgba(90,35,253,0.25)] hover:shadow-[0_12px_32px_rgba(90,35,253,0.4)]
+      before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-[var(--color-dark)] before:z-[1]
+    `,
+  };
 
-  const shadowEffect =
-    variant === "primary" || variant === "purple"
-      ? "shadow-lg hover:shadow-xl"
-      : "";
+  const sizes = {
+    sm: "h-8 px-4 text-sm",
+    md: "h-9 px-5 text-base",
+    lg: "h-10 px-6 text-base",
+  };
 
-  // Combinamos todas las clases
-  const buttonClasses = `${baseClasses} ${textColor} ${bgColor} ${shadowEffect} ${px} ${className} hover:scale-105`;
-
-  const content = <span>{children}</span>;
-
-  // Si es un enlace
-  if (href) {
-    return (
-      <a href={href} className={buttonClasses}>
-        {content}
-      </a>
-    );
-  }
-
-  // Si es un botón
-  return (
-    <button onClick={onClick} className={buttonClasses}>
-      {content}
+  return variant === "darkGradientBorder" ? (
+    <div className={`relative inline-flex ${variants[variant]} ${sizes[size]}`}>
+      <button
+        className={`relative z-[2] w-full h-full rounded-full ${base}`}
+        {...props}
+      >
+        {children}
+      </button>
+    </div>
+  ) : (
+    <button
+      className={`custom-button ${base} ${variants[variant]} ${sizes[size]}`}
+      {...props}
+    >
+      {children}
     </button>
   );
-};
-
-export default Button;
+}

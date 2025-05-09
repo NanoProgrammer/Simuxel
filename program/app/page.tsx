@@ -1,10 +1,11 @@
 import React from 'react'
-import Button from './components/landing/Button'
+
+import Hero from './components/landing/Hero'
 
 export default function page() {
   return (
-    <div className='text-3xl'>page
-    <Button variant="primary">Primary</Button>
+    <div className='bg-[var(--color-dark)] min-h-full'>
+       <Hero />
     </div>
   )
 }
