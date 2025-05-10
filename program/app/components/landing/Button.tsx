@@ -17,7 +17,7 @@ export function Button({
 
   const variants: Record<Props["variant"], string> = {
     outline:
-      "border border-white border-l-transparent border-r-transparent text-white hover:bg-white hover:text-black",
+      "border border-white text-white hover:bg-white hover:text-black",
     ghost: "bg-transparent text-white hover:bg-white/10",
     primary:
       "bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white",

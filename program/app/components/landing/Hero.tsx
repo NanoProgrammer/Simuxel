@@ -3,27 +3,36 @@
 import React, { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import Header from './Header'
+import { Button } from './Button'
 
 export default function Hero() {
   const bgRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const shapesRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+  const [isClient, setIsClient] = useState(false)
+
+  // Asegurarse de que el código se ejecute solo en el cliente
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   // Obtener el tamaño de la ventana solo en el cliente
   useEffect(() => {
+    if (!isClient) return
     const updateWindowSize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight })
     }
     updateWindowSize()
     window.addEventListener('resize', updateWindowSize)
     return () => window.removeEventListener('resize', updateWindowSize)
-  }, [])
+  }, [isClient])
 
   // Animación fondo + mouse
   useEffect(() => {
+    if (!isClient || !bgRef.current) return
     const animateBackground = () => {
-      if (!bgRef.current) return
       const x = Math.sin(Date.now() * 0.011) * 25
       const y = Math.cos(Date.now() * 0.011) * 25
       gsap.to(bgRef.current, {
@@ -60,24 +69,31 @@ export default function Hero() {
     animateBackground()
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
+  }, [isClient])
 
   // CRT distortion
   useEffect(() => {
-    if (!titleRef.current) return
-    gsap.to(titleRef.current, {
-      x: 'random(-5, 5)',
-      skewX: 'random(-5, 5)',
-      duration: 0.08,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-    })
-  }, [])
+    if (!isClient || !buttonRef.current) return
+    gsap.fromTo(buttonRef.current,{
+      scale: 0,
+      rotate: -10,
+      y: 50
+
+    }, {
+      scale: 1.1,
+      repeat: 0,
+      yoyo: false,
+      rotate: 0,
+      duration: 1,
+      y: 0,
+      delay: 0.15,
+      ease: 'elastic.inOut',
+    } )
+  }, [isClient])
 
   // Animación de entrada de letras
   useEffect(() => {
-    if (!titleRef.current) return
+    if (!isClient || !titleRef.current) return
     const letters = titleRef.current.querySelectorAll('span')
 
     gsap.from(letters, {
@@ -87,7 +103,23 @@ export default function Hero() {
       duration: 1.5,
       ease: 'power3.out',
     })
+  }, [isClient])
+
+  useEffect(() => {
+    
+    if (!shapesRef.current) return
+    gsap.to(shapesRef.current, {
+      x: 'random(-5, 5)',
+      skewX: 'random(-5, 5)',
+      duration: 0.08,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+    })
   }, [])
+
+
+  if (!isClient) return null
 
   return (
     <div className="relative overflow-hidden min-h-screen w-full bg-black/70 text-[var(--color-white)] flex flex-col">
@@ -137,7 +169,7 @@ export default function Hero() {
       {/* Header y contenido visible encima del fondo */}
       <Header />
 
-      <div className="flex-1 flex items-center justify-center relative z-10">
+      <div className="flex-1 flex flex-col items-center justify-center relative z-10">
         <h1
           ref={titleRef}
           className="crt-text text-5xl md:text-7xl font-extrabold tracking-wider text-center relative"
@@ -146,6 +178,10 @@ export default function Hero() {
             <span key={index} className="inline-block">{letter}</span>
           ))}
         </h1>
+        <p className='text-2xl md:text-4xl font-extrabold tracking-wider text-center'>3D Building Performance Simulator</p>
+        <div className='mt-8' ref={buttonRef}>
+          <Button variant="outline" size="lg" >Start now</Button>
+        </div>
       </div>
     </div>
   )

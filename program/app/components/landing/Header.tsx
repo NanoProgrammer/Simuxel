@@ -63,13 +63,13 @@ export default function Header() {
         </nav>
 
         {/* Botones Mobile */}
-        <div className="flex md:hidden gap-3 ml-auto">
-          <Link href="/sign-in">
-            <Button variant="outline" size="sm">Sign In</Button>
-          </Link>
-          <Link href="/sign-up">
-            <Button variant="ghost" size="sm">Sign Up</Button>
-          </Link>
+        <div className="flex md:hidden gap-3 ml-auto text-sm">
+        <Link href="/sign-in">
+              <Button variant="secondary" size="sm">Sign In</Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button variant="tertiary" size="sm">Sign Up</Button>
+            </Link>
         </div>
       </div>
     </header>
