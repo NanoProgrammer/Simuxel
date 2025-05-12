@@ -1,89 +1,85 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+
+import React, { useEffect, useRef } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Suspense } from 'react'
+import Model from './Model'
+import Import from './Import'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Modeling() {
-  const mountRef = useRef<HTMLDivElement | null>(null);
-  const modelRef = useRef<THREE.Group | null>(null);
+  const textRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    if (!textRef.current) return
 
-    const width = mountRef.current.clientWidth;
-    const height = mountRef.current.clientHeight;
+    // Configuración del contexto GSAP con ScrollTrigger
+    const ctx = gsap.context(() => {
+      gsap.from(textRef.current, {
+        opacity: 0,
+        y: -50,
+        duration: 1.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: textRef.current,
+          start: 'top center',
+          end: 'top 10%',
+          scrub: true, // Hace que la animación siga el scroll
+        },
+      })
+    }, [textRef])  // Dependencias vacías
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x111111); // fondo oscuro
+    // Refresca los ScrollTriggers después de la carga
+    ScrollTrigger.refresh()
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.2, 100);
-    camera.position.set(0, 10, 18);
-    camera.lookAt(0, 2, 2);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
-
-    // Luz ambiente blanca suave
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-    scene.add(ambientLight);
-
-    // Luz direccional frontal
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-
-    // Luz de relleno trasera
-    const backLight = new THREE.DirectionalLight(0xffffff, 1);
-    backLight.position.set(-5, -5, -5);
-    scene.add(backLight);
-
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/draco/');
-
-    const loader = new GLTFLoader();
-    loader.setDRACOLoader(dracoLoader);
-
-    let animationFrameId: number;
-
-    loader.load('/models/model.glb', (gltf) => {
-      const model = gltf.scene;
-      modelRef.current = model;
-
-      // Escala y posición por defecto
-      model.scale.set(0.8, 0.8, 0.8);
-      model.position.set(0, -4, 0);
-      scene.add(model);
-
-      animate();
-    });
-
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-      if (modelRef.current) {
-        modelRef.current.rotation.y += 0.01;
-      }
-      renderer.render(scene, camera);
-    };
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
-    };
-  }, []);
+    return () => ctx.revert() // Limpiar el contexto cuando el componente se desmonta
+  }, [])
 
   return (
-  <div style={{ display: 'flex', width: '100%', height: '120vh',  }} className='bg-[var(--color-dark)] m-0 p-0 overflow-hidden'>
-    <div style={{ width: '50%', padding: '2rem', color: '#eee', background: '#111' }}>
-      <h2>Modelo 3D</h2>
-      <p>Fondo oscuro, luces neutras. Modelo visible con buena iluminación.</p>
+    <div className="h-screen w-full flex flex-col overflow-hidden bg-[var(--color-dark)]" id='model'>
+      <h1
+        ref={textRef}
+        className="text-white text-3xl font-bold text-center mt-10 mb-24"
+      >
+        Tools
+      </h1>
+
+      <div className="flex flex-1">
+        <div className="w-[40%] p-6 text-white space-y-4">
+          <h3 className="text-xl font-semibold">Modeling</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,
+            itaque sint nisi officiis numquam cupiditate consequuntur vero...
+          </p>
+        </div>
+
+        <div className="w-[60%] h-full">
+          <Canvas
+            orthographic
+            camera={{ position: [0, 0, 100], zoom: 40 }}
+            className="w-full h-full"
+          >
+            <group>
+              <ambientLight intensity={0.8} />
+              <directionalLight intensity={1} position={[6, 5, 6]} />
+              <directionalLight intensity={0.5} position={[-6, -6, -6]} />
+            </group>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center h-full text-white animate-pulse">
+                  Loading 3D model...
+                </div>
+              }
+            >
+              <Model />
+            </Suspense>
+          </Canvas>
+        </div>
+      </div>
+      <Import />
     </div>
-    <div ref={mountRef} style={{ width: '50%'  }} className='h-full' />
-  </div>
-);
+  )
 }

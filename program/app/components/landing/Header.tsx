@@ -5,7 +5,7 @@ import { Button } from "./Button";
 
 export default function Header() {
   return (
-    <header className="text-primary sticky top-0 z-50 backdrop-blur-xl">
+    <header className="text-primary sticky top-0 z-50 backdrop-blur-xl w-full">
       <div className="max-w-7xl mx-auto px-16 py-1 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-6">
@@ -64,12 +64,12 @@ export default function Header() {
 
         {/* Botones Mobile */}
         <div className="flex md:hidden gap-3 ml-auto text-sm">
-        <Link href="/sign-in">
-              <Button variant="secondary" size="sm">Sign In</Button>
-            </Link>
-            <Link href="/sign-up">
-              <Button variant="tertiary" size="sm">Sign Up</Button>
-            </Link>
+          <Link href="/sign-in">
+            <Button variant="secondary" size="sm">Sign In</Button>
+          </Link>
+          <Link href="/sign-up">
+            <Button variant="tertiary" size="sm">Sign Up</Button>
+          </Link>
         </div>
       </div>
     </header>
