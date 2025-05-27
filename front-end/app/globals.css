@@ -1,0 +1,179 @@
+/* ✅ 1. Tailwind base */
+@import "tailwindcss";
+
+/* ✅ 2. Design Tokens */
+@theme {
+  --color-primary: #8000FF;        /* Púrpura Neón */
+  --color-secondary: #00E5FF;      /* Azul Neón */
+  --color-accent: #2A2A2A;         /* Gris Titanio */
+  --color-bg: #0D0D0D;             /* Fondo Oscuro Principal */
+  --color-text: #FFFFFF;           /* Texto principal */
+  --color-subtext: #AAAAAA;        /* Texto secundario */
+
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ✅ 3. Tipografías */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@600;800&display=swap');
+
+html {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6,
+.heading-font {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* ✅ 4. Botones */
+.btn-primary {
+  @apply px-4 py-2 rounded-md transition font-semibold;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-secondary);
+}
+
+/* ✅ 5. Gradientes */
+.bg-gradient-primary {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+}
+
+.bg-gradient-surface {
+  background: linear-gradient(to bottom right, var(--color-bg), #1A1A1A);
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(120deg, var(--color-secondary), var(--color-primary));
+}
+
+/* ✅ 6. Colores de fondo */
+.bg-dark      { background-color: var(--color-bg); }
+.bg-primary   { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-accent    { background-color: var(--color-accent); }
+
+/* ✅ 7. Texto */
+.text-primary   { color: var(--color-text); }
+.text-secondary { color: var(--color-subtext); }
+
+/* ✅ 8. Borde con glow */
+.border-glow {
+  box-shadow:
+    0 0 10px var(--color-secondary),
+    0 0 25px var(--color-secondary);
+  transition: box-shadow 0.5s ease;
+}
+
+/* ✅ 9. Botón con borde gradiente */
+.btn-border-gradient {
+  position: relative;
+  padding: 1px;
+  border-radius: 1rem;
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+}
+
+.btn-border-gradient > .inner {
+  background-color: var(--color-bg);
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-border-gradient:hover > .inner {
+  background-color: var(--color-accent);
+}
+
+/* ✅ 10. Efecto CRT para logo */
+.crt-text {
+  position: relative;
+  color: white;
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.5),
+    3px 0 red,
+    -3px 0 blue;
+  animation: flicker 1.2s infinite alternate;
+  overflow: hidden;
+}
+
+.crt-text::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 2px
+  );
+  animation: scanlines 1.5s linear infinite;
+  z-index: 1;
+}
+
+/* ✅ 11. Animaciones */
+@keyframes flicker {
+  0%, 100% {
+    transform: skewX(0deg) translateX(0);
+    opacity: 1;
+  }
+  20% {
+    transform: skewX(2deg) translateX(-3px);
+    opacity: 0.95;
+  }
+  40% {
+    transform: skewX(-3deg) translateX(4px);
+    opacity: 0.98;
+  }
+  60% {
+    transform: skewX(1deg) translateX(-2px);
+    opacity: 1;
+  }
+  80% {
+    transform: skewX(-2deg) translateX(2px);
+    opacity: 0.97;
+  }
+}
+
+@keyframes scanlines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+/* ✅ 12. Flotación */
+@layer utilities {
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%     { transform: translateY(-20px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-float-fast {
+    animation: float 4s ease-in-out infinite;
+  }
+}
