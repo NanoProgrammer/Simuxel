@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Simuxel Team" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favico.ico",
   },
   openGraph: {
     title: "Simuxel – 3D Building Performance Simulator",

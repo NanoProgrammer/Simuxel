@@ -1,9 +1,10 @@
 import React from 'react'
-
 import Hero from './components/landing/Hero'
 import TitleWithPaint from './components/tools/title'
 import Import from './components/tools/Imports'
-import WorldMap from './components/tools/map'
+import SelectProject from './components/tools/selectProject'
+import RealtimeWeather from './components/tools/RealtimeWeather'
+import WeatherCustom from './components/tools/WeatherCustom'
 
 export default function page() {
   return (
@@ -11,7 +12,9 @@ export default function page() {
        <Hero />
        <TitleWithPaint />
        <Import />
-       <WorldMap />
+       <SelectProject />
+       <RealtimeWeather />
+       <WeatherCustom />
     </div>
   )
 }
