@@ -27,10 +27,7 @@ export const metadata: Metadata = {
     "Simuxel",
     "web simulator",
   ],
-  authors: [{ name: "Simuxel Team" }],
-  icons: {
-    icon: "/favico.ico",
-  },
+  authors: [{ name: "Santiago Gonzalez" }],
   openGraph: {
     title: "Simuxel – 3D Building Performance Simulator",
     description:

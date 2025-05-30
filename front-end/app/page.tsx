@@ -4,7 +4,9 @@ import TitleWithPaint from './components/tools/title'
 import Import from './components/tools/Imports'
 import SelectProject from './components/tools/selectProject'
 import RealtimeWeather from './components/tools/RealtimeWeather'
-import WeatherCustom from './components/tools/WeatherCustom'
+import GraphComparison from './components/tools/GraphComparison'
+import Footer from './components/landing/footer'
+
 
 export default function page() {
   return (
@@ -14,7 +16,8 @@ export default function page() {
        <Import />
        <SelectProject />
        <RealtimeWeather />
-       <WeatherCustom />
+       <GraphComparison />
+        <Footer />
     </div>
   )
 }

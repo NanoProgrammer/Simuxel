@@ -1,13 +1,14 @@
 'use client';
 import { motion } from 'framer-motion';
 import WeatherTitle from './WeatherTitle';
+import Link from 'next/link';
 export default function SelectProject() {
   return (
     <>
     <WeatherTitle />
     <div className='flex flex-col items-center justify-center h-screen'>
       <motion.h1 className='animate-float text-4xl items-center shadow-blue-400/50 shadow-2xs text-center font-bold mx-8' 
-            whileInView="onscreen">Selects Your Project</motion.h1>
+            whileInView="onscreen">Selects A Project</motion.h1>
       <div className='animate-float flex flex-row items-center justify-around mt-8  p-8 rounded-lg shadow-purple-500/50 shadow-2xl bg-grey-100 dark:bg-gray-800 w-6/9 h-3/4'>
       {Array(3).fill().map((_, index) => (
         <motion.div
@@ -60,9 +61,11 @@ export default function SelectProject() {
   </svg>
 )}
           
+          <Link href='/sign-in'>
           <button className='bg-dark text-white px-4 py-2 rounded-lg shadow-md hover:scale-110 transition-transform duration-300 ease-in-out shadow-blue-500/50'>
             Select
           </button>
+          </Link>
         </motion.div>
       ))}
       </div>
