@@ -10,7 +10,7 @@ export default function RealtimeWeather() {
     <section className="w-full min-h-screen text-white py-16 px-6 flex flex-col items-center justify-center gap-20 mt-16">
 
       {/* Section 1: Real-time Climate Simulation */}
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-6xl" id="simulate">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -169,7 +169,7 @@ export default function Hero() {
             </span>
           ))}
         </h1>
-        <p className="text-2xl md:text-4xl font-extrabold tracking-wider text-center">
+        <p className="text-2xl md:text-4xl mx-8 font-extrabold tracking-wider text-center">
           3D Building Performance Simulator
         </p>
         <div className="mt-8" ref={buttonRef}>

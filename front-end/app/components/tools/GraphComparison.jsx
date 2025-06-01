@@ -34,9 +34,9 @@ const sampleData = {
 
 export function GraphComparison() {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center  text-white px-4 py-12 overflow-hidden mb-32">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center  text-white px-4 py-12 overflow-hidden mb-32" id="compare">
       <motion.h2
-        className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 drop-shadow-lg"
+        className="text-4xl text-center md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 drop-shadow-lg"
         initial={{ opacity: 0, y: -80 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}

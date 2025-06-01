@@ -22,7 +22,7 @@ export default function TitleWithPaint() {
   const [view, setView] = useState(false)
 
   return (
-    <motion.div
+    <motion.div id="model"
       className="text-4xl font-bold flex gap-1 min-h-[20vh]  justify-center mt-24"
       // Este div controla cuándo cambia el estado view al entrar en viewport
       onViewportEnter={() => setView(true)}

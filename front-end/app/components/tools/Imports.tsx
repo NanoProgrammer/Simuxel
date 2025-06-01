@@ -21,7 +21,7 @@ export default function Import() {
           From File to Forecast
         </h2>
 
-        <p className="text-lg md:text-xl text-[var(--color-subtext)] max-w-3xl mx-auto leading-relaxed mb-12">
+        <p className="text-[16px] md:text-xl text-[var(--color-subtext)] max-w-3xl mx-auto leading-relaxed mb-12  ">
           Upload your <span className="text-[var(--color-primary)] font-semibold">GLTF</span>, <span className="text-[var(--color-primary)] font-semibold">IFC</span>, <span className="text-[var(--color-primary)] font-semibold">DWG</span>, or <span className="text-[var(--color-primary)] font-semibold">DXF</span> file and instantly simulate your building's energy use, thermal comfort, and performance based on real climate data — no HVAC required.
         </p>
 
