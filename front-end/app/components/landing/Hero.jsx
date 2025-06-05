@@ -6,10 +6,10 @@ import Header from "./Header";
 import { Button } from "./Button";
 
 export default function Hero() {
-  const bgRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const shapesRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const bgRef = useRef(null);
+  const titleRef = useRef(null);
+  const shapesRef = useRef(null);
+  const buttonRef = useRef(null);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [isClient, setIsClient] = useState(false);
 
@@ -42,7 +42,7 @@ export default function Hero() {
       requestAnimationFrame(animateBackground);
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 200;
       const y = (e.clientY / window.innerHeight - 0.5) * 200;
       gsap.to(bgRef.current, {
@@ -53,7 +53,7 @@ export default function Hero() {
       });
 
       const shapes = gsap.utils.toArray(".shape");
-      shapes.forEach((shape: any, i) => {
+      shapes.forEach((shape, i) => {
         gsap.to(shape, {
           x: x * (i + 1) * 0.04,
           y: y * (i + 1) * 0.04,
