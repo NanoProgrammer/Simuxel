@@ -4,7 +4,7 @@ import Svgifc from './svg_ifc'
 import Svgdwg from './svg_dwg'
 import Svgdxf from './svg_dxf'
 import { Button } from '../landing/Button'
-import Link  from 'next/link'
+import Link from 'next/link'
 
 export default function Import() {
   const fileTypes = [
@@ -21,8 +21,8 @@ export default function Import() {
           From File to Forecast
         </h2>
 
-        <p className="text-[16px] md:text-xl text-[var(--color-subtext)] max-w-3xl mx-auto leading-relaxed mb-12  ">
-          Upload your <span className="text-[var(--color-primary)] font-semibold">GLTF</span>, <span className="text-[var(--color-primary)] font-semibold">IFC</span>, <span className="text-[var(--color-primary)] font-semibold">DWG</span>, or <span className="text-[var(--color-primary)] font-semibold">DXF</span> file and instantly simulate your building's energy use, thermal comfort, and performance based on real climate data — no HVAC required.
+        <p className="text-[16px] md:text-xl text-[var(--color-subtext)] max-w-3xl mx-auto leading-relaxed mb-12">
+          Upload your <span className="text-[var(--color-primary)] font-semibold">GLTF</span>, <span className="text-[var(--color-primary)] font-semibold">IFC</span>, <span className="text-[var(--color-primary)] font-semibold">DWG</span>, or <span className="text-[var(--color-primary)] font-semibold">DXF</span> file and instantly simulate your building&apos;s energy use, thermal comfort, and performance based on real climate data — no HVAC required.
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 justify-center items-center">
@@ -41,9 +41,9 @@ export default function Import() {
 
         <div className="mt-24">
           <Link href="/sign-in">
-          <Button variant="darkGradientBorder" size="lg">
-            <span className="inner text-lg px-6 py-3">Upload Your Model</span>
-          </Button>
+            <Button variant="darkGradientBorder" size="lg">
+              <span className="inner text-lg px-6 py-3">Upload Your Model</span>
+            </Button>
           </Link>
         </div>
       </div>
