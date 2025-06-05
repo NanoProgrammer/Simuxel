@@ -8,7 +8,7 @@ import AuthRouter from './routes/auth.js';
 
 const app = express();
 
-const AcceptedOrigin = ['http://localhost:3000', 'https://example.com'];
+const AcceptedOrigin = ['https://simuxel.vercel.app', 'http://localhost:3000'];
 const PORT = process.env.PORT || 3000;
 const UserFunction = new UserModel();
 
