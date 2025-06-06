@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import UserRouter from './routes/users.js';
 import {UserModel} from './model/postgres/db.js';
@@ -16,7 +18,11 @@ const API_KEY = process.env.API_SECRET ;
 
 app.use((req, res, next) => {
   const key = req.headers['x-api-key'];
-  if (key !== API_KEY) {
+  const isValid =['/auth/google','/auth/google/callback'];
+  const isPublic = openRoutes.some(route => req.path.startsWith(route));
+  if(isPublic ) return next();
+  
+   else if (key !== API_KEY) {
     return res.status(403).json({ error: 'Access denied' });
   }
   next();

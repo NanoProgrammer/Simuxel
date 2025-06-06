@@ -20,10 +20,6 @@ UsersRouter.get('/:id', userController.getById);
     }
     );
 
-    UsersRouter.post("/logout", (req, res) => {
-  res.clearCookie("access_token").send("Logged out");
-});
-
     return UsersRouter;
 }
 export default UserRouter;
