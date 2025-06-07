@@ -19,9 +19,10 @@ const API_KEY = process.env.API_SECRET ;
 app.use((req, res, next) => {
   const key = req.headers['x-api-key'];
   const isValid =['/auth/google','/auth/google/callback'];
-  const isPublic = openRoutes.some(route => req.path.startsWith(route));
-  if(isPublic ) return next();
-  
+  const isPublic = isValid.some(route => req.path.startsWith(route));
+  if(isPublic ) {
+    return next();
+  }
    else if (key !== API_KEY) {
     return res.status(403).json({ error: 'Access denied' });
   }
