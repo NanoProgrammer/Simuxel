@@ -4,6 +4,9 @@ import { AuthController } from "../controller/Auth.js";
 import passport from 'passport';
 import '../controller/passport.js'
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import bcrypt from 'bcrypt';
 
 const AuthRouter = express.Router();
 
@@ -46,5 +49,63 @@ AuthRouter.get('/google/callback',
     res.redirect('https://simuxel.vercel.app/user'); // ajusta
   }
 );
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // o 'hotmail', 'smtp.yourdomain.com', etc.
+  auth: {
+    user: process.env.EMAIL_USER, // tu correo
+    pass: process.env.EMAIL_PASS, // tu clave o app password
+  },
+});
+
+// Forgot password con JWT
+AuthRouter.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  const user = await userModel.findByEmail(email);
+  if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+
+  // Generar token JWT (expira en 15 minutos)
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.SECRET_KEY,
+    { expiresIn: "15m" }
+  );
+
+  const resetLink = `https://simuxel.vercel.app/reset-password/${token}`;
+
+  // Enviar email
+  await transporter.sendMail({
+    from: '"Simuxel Support" <no-reply@simuxel.com>',
+    to: email,
+    subject: "Restablecer contraseña",
+    html: `
+      <h3>Hola ${user.name || "usuario"},</h3>
+      <p>Recibimos una solicitud para restablecer tu contraseña.</p>
+      <p><a href="${resetLink}">Haz clic aquí para cambiarla</a></p>
+      <p>Este enlace expirará en 15 minutos.</p>
+    `,
+  });
+
+  res.json({ message: "Correo enviado" });
+});
+
+// Reset password con verificación de JWT
+AuthRouter.post("/reset-password/:token", async (req, res) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  let payload;
+  try {
+    payload = jwt.verify(token, process.env.SECRET_KEY);
+  } catch (err) {
+    return res.status(400).json({ error: "Token inválido o expirado" });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await userModel.update(payload.id, { password: hashedPassword });
+
+  res.json({ message: "Contraseña actualizada correctamente" });
+});
+
 
 export default AuthRouter;
