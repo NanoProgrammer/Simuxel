@@ -43,7 +43,7 @@ AuthRouter.get('/google/callback',
     });
 
     // Redirige al frontend ya logueado
-    res.redirect('https://tu-frontend.com/dashboard'); // ajusta
+    res.redirect('https://simuxel.vercel.app/user'); // ajusta
   }
 );
 
