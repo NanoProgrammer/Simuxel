@@ -31,7 +31,7 @@ AuthRouter.get('/google/callback',
   (req, res) => {
     const token = jwt.sign(
       { id: req.user.id, email: req.user.email },
-      process.env.JWT_SECRET,
+      process.env.SECRECT_KEY,
       { expiresIn: '7d' }
     );
 
