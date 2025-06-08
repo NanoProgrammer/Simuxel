@@ -1,6 +1,6 @@
 import React from 'react'
 import AccountLayout from '../layout'
-import {register} from '../../components/Fetch'
+//import {register} from '../../components/Fetch'
 export default function SignUp() {
   return (
     <AccountLayout>
