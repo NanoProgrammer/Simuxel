@@ -29,23 +29,12 @@ export default function Hero() {
   }, [isClient]);
 
   useEffect(() => {
-    if (!isClient || !bgRef.current) return;
-
-    const animateBackground = () => {
-      const x = Math.sin(Date.now() * 0.011) * 25;
-      const y = Math.cos(Date.now() * 0.011) * 25;
-      gsap.to(bgRef.current, {
-        x,
-        y,
-        duration: 1.5,
-        ease: "sine.inOut",
-      });
-      requestAnimationFrame(animateBackground);
-    };
+    if (!isClient || !bgRef.current || !shapesRef.current) return;
 
     const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 200;
       const y = (e.clientY / window.innerHeight - 0.5) * 200;
+
       gsap.to(bgRef.current, {
         x,
         y,
@@ -54,6 +43,8 @@ export default function Hero() {
       });
 
       const shapes = gsap.utils.toArray(".shape");
+      if (shapes.length === 0) return;
+
       shapes.forEach((shape, i) => {
         gsap.to(shape, {
           x: x * (i + 1) * 0.04,
@@ -64,7 +55,21 @@ export default function Hero() {
       });
     };
 
-    animateBackground();
+    const animateBackground = () => {
+      const x = Math.sin(Date.now() * 0.011) * 25;
+      const y = Math.cos(Date.now() * 0.011) * 25;
+      if (bgRef.current) {
+        gsap.to(bgRef.current, {
+          x,
+          y,
+          duration: 1.5,
+          ease: "sine.inOut",
+        });
+      }
+      requestAnimationFrame(animateBackground);
+    };
+
+    requestAnimationFrame(animateBackground);
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [isClient]);
@@ -102,16 +107,21 @@ export default function Hero() {
   }, [isClient]);
 
   useEffect(() => {
-    if (!shapesRef.current) return;
-    gsap.to(shapesRef.current, {
-      x: "random(-5, 5)",
-      skewX: "random(-5, 5)",
-      duration: 0.08,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
+    if (!isClient || !shapesRef.current) return;
+    const shapes = gsap.utils.toArray(".shape");
+    if (shapes.length === 0) return;
+
+    shapes.forEach((shape) => {
+      gsap.to(shape, {
+        x: "random(-5, 5)",
+        skewX: "random(-5, 5)",
+        duration: 0.08,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
     });
-  }, []);
+  }, [isClient]);
 
   if (!isClient) return null;
 
@@ -129,18 +139,17 @@ export default function Hero() {
               <stop offset="100%" stopColor="var(--color-secondary)" />
             </linearGradient>
           </defs>
-          {[...Array(7)].map((_, i) => (
-            <path
-              key={i}
-              className="shape"
-              d={`M0 ${50 + i * 60} Q ${windowSize.width / 4} ${80 + i * 60}, ${
-                windowSize.width / 2
-              } ${50 + i * 60} T ${windowSize.width} ${50 + i * 60}`}
-              stroke="url(#grad)"
-              strokeWidth="4"
-              fill="none"
-            />
-          ))}
+          {windowSize.width > 0 &&
+            [...Array(7)].map((_, i) => (
+              <path
+                key={i}
+                className="shape"
+                d={`M0 ${50 + i * 60} Q ${windowSize.width / 4} ${80 + i * 60}, ${windowSize.width / 2} ${50 + i * 60} T ${windowSize.width} ${50 + i * 60}`}
+                stroke="url(#grad)"
+                strokeWidth="4"
+                fill="none"
+              />
+            ))}
         </svg>
 
         {[...Array(5)].map((_, i) => (
@@ -158,7 +167,7 @@ export default function Hero() {
       {/* Header */}
       <Header />
 
-      {/* Título + subtítulo + botón */}
+      {/* Contenido principal */}
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 min-h-[120px]">
         <h1
           ref={titleRef}
@@ -175,9 +184,9 @@ export default function Hero() {
         </p>
         <div className="mt-8" ref={buttonRef}>
           <Link href="/sign-in">
-          <Button variant="darkGradientBorder" size="lg">
-            <span className="inner">START NOW</span>
-          </Button>
+            <Button variant="darkGradientBorder" size="lg">
+              <span className="inner">START NOW</span>
+            </Button>
           </Link>
         </div>
       </div>
