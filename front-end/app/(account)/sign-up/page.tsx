@@ -53,7 +53,7 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
           >
             Sign Up
           </button>
@@ -61,16 +61,16 @@ export default function SignUp() {
           <div className="mt-6 text-sm text-center text-white/70 space-y-2">
             <p>
               Already have an account?{' '}
-              <a href="/account/sign-in" className="text-cyan-400 hover:underline">
+              <a href="/sign-in" className="text-cyan-400 hover:underline transition-ease transition-all transition-300">
                 Sign In
               </a>
             </p>
             <p>
-              <a href="/account/terms" className="hover:underline">
+              <a href="/terms" className="hover:underline">
                 Terms of Service
               </a>{' '}
               &nbsp;|&nbsp;{' '}
-              <a href="/account/privacy" className="hover:underline">
+              <a href="/privacy" className="hover:underline">
                 Privacy Policy
               </a>
             </p>

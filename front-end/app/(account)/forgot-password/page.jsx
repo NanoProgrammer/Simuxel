@@ -27,7 +27,7 @@ export default function RecoverPassword() {
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
           >
             Send Recovery Link
           </button>
@@ -35,12 +35,12 @@ export default function RecoverPassword() {
           <div className="mt-6 text-sm text-center text-white/70 space-y-2">
             <p>
               Already have an account?{' '}
-              <a href="/account/sign-in" className="text-cyan-400 hover:underline">
+              <a href="/sign-in" className="text-cyan-400 hover:underline">
                 Sign In
               </a>
             </p>
             <p>
-              <a href="/account/sign-up" className="hover:underline">
+              <a href="/sign-up" className="hover:underline">
                 Create New Account
               </a>
             </p>

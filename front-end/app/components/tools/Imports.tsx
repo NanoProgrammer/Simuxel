@@ -40,7 +40,7 @@ export default function Import() {
         </div>
 
         <div className="mt-24">
-          <Link href="/sign-in">
+          <Link href="/simulator">
             <Button variant="darkGradientBorder" size="lg">
               <span className="inner text-lg px-6 py-3">Upload Your Model</span>
             </Button>

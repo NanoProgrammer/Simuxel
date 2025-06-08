@@ -75,16 +75,17 @@ AuthRouter.post("/forgot-password", async (req, res) => {
 
   // Enviar email
   await transporter.sendMail({
-    from: '"Simuxel Support" <no-reply@simuxel.com>',
-    to: email,
-    subject: "Restablecer contraseña",
-    html: `
-      <h3>Hola ${user.name || "usuario"},</h3>
-      <p>Recibimos una solicitud para restablecer tu contraseña.</p>
-      <p><a href="${resetLink}">Haz clic aquí para cambiarla</a></p>
-      <p>Este enlace expirará en 15 minutos.</p>
-    `,
-  });
+  from: `"Simuxel Support" <${process.env.EMAIL_USER}>`,
+  to: email,
+  subject: "Password Reset Request",
+  html: `
+    <h3>Hello ${user.name || "User"},</h3>
+    <p>We received a request to reset your password.</p>
+    <p><a href="${resetLink}">Click here to reset it</a></p>
+    <p>This link will expire in 15 minutes.</p>
+    <p>If you didn’t request this, please ignore this email.</p>
+  `,
+});
 
   res.json({ message: "Correo enviado" });
 });

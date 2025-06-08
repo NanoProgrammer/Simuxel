@@ -33,7 +33,7 @@ export default function SignIn() {
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
           >
             Sign In
           </button>
@@ -41,21 +41,21 @@ export default function SignIn() {
           <div className="mt-6 text-sm text-center text-white/70 space-y-2">
             <p>
               Don’t have an account?{' '}
-              <a href="/account/sign-up" className="text-cyan-400 hover:underline">
+              <a href="/sign-up" className="text-cyan-400 hover:underline">
                 Sign Up
               </a>
             </p>
             <p>
-              <a href="/account/forgot-password" className="hover:underline">
+              <a href="/forgot-password" className="hover:underline">
                 Forgot Password?
               </a>
             </p>
             <p>
-              <a href="/account/terms" className="hover:underline">
+              <a href="/terms" className="hover:underline">
                 Terms of Service
               </a>{' '}
               &nbsp;|&nbsp;{' '}
-              <a href="/account/privacy" className="hover:underline">
+              <a href="/privacy" className="hover:underline">
                 Privacy Policy
               </a>
             </p>

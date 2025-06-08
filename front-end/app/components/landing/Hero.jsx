@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Header from "./Header";
 import { Button } from "./Button";
+import Link from "next/link";
 
 export default function Hero() {
   const bgRef = useRef(null);
@@ -173,9 +174,11 @@ export default function Hero() {
           3D Building Performance Simulator
         </p>
         <div className="mt-8" ref={buttonRef}>
+          <Link href="/sign-in">
           <Button variant="darkGradientBorder" size="lg">
             <span className="inner">START NOW</span>
           </Button>
+          </Link>
         </div>
       </div>
     </div>

@@ -68,7 +68,7 @@ export default function SelectProject() {
                 </svg>
               )}
 
-              <Link href='/sign-in'>
+              <Link href='/simulator'>
                 <button className='bg-dark text-white px-4 py-2 rounded-lg shadow-md hover:scale-110 transition-transform duration-300 ease-in-out shadow-blue-500/50'>
                   Select
                 </button>
