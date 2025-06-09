@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AccountLayout from "../layout";
-import { login } from '../../components/Fetch';
+import { login } from '../components/Fetch';
 
 export default function SignIn() {
     const router = useRouter();
