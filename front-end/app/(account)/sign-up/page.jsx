@@ -42,7 +42,7 @@ export default function SignUp() {
       });
       alert("Registro exitoso");
     } catch (err) {
-      alert("Error: " + err.message);
+      setError(err.message);
     }
 
     // Limpiar campos
