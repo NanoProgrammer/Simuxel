@@ -40,9 +40,9 @@ export default function SignUp() {
         email,
         password
       });
-      alert("Registro exitoso");
     } catch (err) {
       setError(err.message);
+      return;
     }
 
     // Limpiar campos
@@ -69,6 +69,7 @@ export default function SignUp() {
           <h2 className="text-3xl font-bold text-white mb-6 text-center">
             Sign Up
           </h2>
+
 
           {error && (
             <div className="mb-4 text-red-400 font-medium text-sm text-center">

@@ -18,7 +18,7 @@ const UserRouter = ({ UserModel }) => {
   router.get('/me', requireAuth, async (req, res) => {
     const user = await UserModel.findByEmailNoPassword(req.user.email);
     if (!user) return res.status(404).json({ error: "User not found" });
-    res.send(user);
+    res.json(user);
   });
 
   return router;

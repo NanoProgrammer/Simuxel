@@ -1,17 +1,20 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState } from "react";
+import Link from "next/link";
+import { getMyUser } from "../components/Fetch";
 
-export default function Account() {
-  const [isModalOpen, setModalOpen] = useState(false)
+export default async function Account() {
+  const { id, name, email, role } = await getMyUser();
+  const [isModalOpen, setModalOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-[#0f0f1a] text-white px-6 py-12">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl font-bold mb-4">My Account</h1>
         <p className="text-white/70 mb-10">
-          Welcome to Simuxel. Here you can manage your projects and account settings.
+          Welcome to Simuxel. Here you can manage your projects and account
+          settings.
         </p>
 
         {/* User Info */}
@@ -20,11 +23,11 @@ export default function Account() {
           <div className="grid sm:grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-white/60">Name</p>
-              <p className="font-medium">Juan Pérez</p>
+              <p className="font-medium">{name}</p>
             </div>
             <div>
               <p className="text-white/60">Email</p>
-              <p className="font-medium">juan@example.com</p>
+              <p className="font-medium">{email}</p>
             </div>
           </div>
         </section>
@@ -35,8 +38,13 @@ export default function Account() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-[#1e1e2f]/80 p-4 rounded-xl border border-white/10 hover:border-cyan-500 transition">
               <h3 className="text-lg font-semibold">North Tower – Bogotá</h3>
-              <p className="text-sm text-white/60">Last simulation: 3 days ago</p>
-              <Link href="/projects/north-tower" className="text-cyan-400 text-sm mt-2 inline-block hover:underline">
+              <p className="text-sm text-white/60">
+                Last simulation: 3 days ago
+              </p>
+              <Link
+                href="/projects/north-tower"
+                className="text-cyan-400 text-sm mt-2 inline-block hover:underline"
+              >
                 View project
               </Link>
             </div>
@@ -51,7 +59,10 @@ export default function Account() {
           >
             Edit Settings
           </button>
-          <Link href="/projects/new" className="bg-white text-black hover:bg-gray-200 py-2 px-4 rounded-lg text-center">
+          <Link
+            href="/projects/new"
+            className="bg-white text-black hover:bg-gray-200 py-2 px-4 rounded-lg text-center"
+          >
             New Project
           </Link>
         </div>
@@ -61,7 +72,9 @@ export default function Account() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="bg-[#1e1e2f] border border-white/10 p-6 rounded-2xl w-full max-w-lg shadow-xl">
-            <h3 className="text-2xl font-bold text-white mb-4">Account Settings</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Account Settings
+            </h3>
 
             <form className="space-y-4">
               <div>
@@ -109,5 +122,5 @@ export default function Account() {
         </div>
       )}
     </main>
-  )
+  );
 }

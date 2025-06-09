@@ -33,7 +33,6 @@ export default function SignIn() {
 
     try {
     await login(email, password);
-    alert('Login exitoso');
   } catch (err) {
   
     setError(err.message);
