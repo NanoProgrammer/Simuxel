@@ -45,14 +45,14 @@ export default function SignUp() {
       return;
     }
 
+     router.push("/sign-in");
     // Limpiar campos
     setEmail("");
     setPassword("");
     setName("");
     setConfirmPassword("");
 
-    // Redirigir
-    router.push("/sign-in");
+
   }
 
   return (

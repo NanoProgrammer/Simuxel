@@ -1,13 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getMyUser } from "../components/Fetch";
+import { useRouter } from "next/navigation";
 
-export default async function Account() {
-  try{
-    const { id, name, email, role } = await getMyUser();
+export default function Account() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const userData = await getMyUser();
+        setUser(userData);
+      } catch (err) {
+        console.error(err);
+        setError("Unauthorized");
+        router.push("/sign-in");
+      }
+    }
+
+    fetchUser();
+  }, [router]);
+
+  if (error || !user) {
+    return null; // o un loading spinner si prefieres
+  }
+
+  const { name, email } = user;
 
   return (
     <main className="min-h-screen bg-[#0f0f1a] text-white px-6 py-12">
@@ -18,7 +41,6 @@ export default async function Account() {
           settings.
         </p>
 
-        {/* User Info */}
         <section className="bg-[#1e1e2f]/80 p-6 rounded-xl shadow-lg border border-white/10 mb-8">
           <h2 className="text-xl font-semibold mb-4">User Information</h2>
           <div className="grid sm:grid-cols-2 gap-4 text-sm">
@@ -33,15 +55,12 @@ export default async function Account() {
           </div>
         </section>
 
-        {/* Recent Projects */}
         <section className="mb-10">
           <h2 className="text-xl font-semibold mb-4">Recent Projects</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-[#1e1e2f]/80 p-4 rounded-xl border border-white/10 hover:border-cyan-500 transition">
               <h3 className="text-lg font-semibold">North Tower – Bogotá</h3>
-              <p className="text-sm text-white/60">
-                Last simulation: 3 days ago
-              </p>
+              <p className="text-sm text-white/60">Last simulation: 3 days ago</p>
               <Link
                 href="/projects/north-tower"
                 className="text-cyan-400 text-sm mt-2 inline-block hover:underline"
@@ -52,7 +71,6 @@ export default async function Account() {
           </div>
         </section>
 
-        {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={() => setModalOpen(true)}
@@ -69,7 +87,6 @@ export default async function Account() {
         </div>
       </div>
 
-      {/* Settings Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="bg-[#1e1e2f] border border-white/10 p-6 rounded-2xl w-full max-w-lg shadow-xl">
@@ -82,7 +99,7 @@ export default async function Account() {
                 <label className="text-white/70 text-sm">Name</label>
                 <input
                   type="text"
-                  defaultValue="Juan Pérez"
+                  defaultValue={name}
                   className="w-full mt-1 p-3 rounded-lg bg-[#2a2a3d] text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
@@ -90,7 +107,7 @@ export default async function Account() {
                 <label className="text-white/70 text-sm">Email</label>
                 <input
                   type="email"
-                  defaultValue="juan@example.com"
+                  defaultValue={email}
                   className="w-full mt-1 p-3 rounded-lg bg-[#2a2a3d] text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
@@ -124,8 +141,4 @@ export default async function Account() {
       )}
     </main>
   );
-  }
-  catch (err) {
-    console.error(err);
-  }
 }

@@ -39,10 +39,9 @@ export default function SignIn() {
     return;
   }
 
+  router.push("/user");
     setEmail("");
     setPassword("");
-
-    router.push("/user");
   }
 
   return (
