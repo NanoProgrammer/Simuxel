@@ -31,7 +31,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 app.use(MiddleCors({AcceptedOrigin}));
-app.options('*', MiddleCors({ AcceptedOrigin }));
 app.use('/users', UserRouter({ UserModel: UserFunction }));
 app.use('/auth', AuthRouter);
 
