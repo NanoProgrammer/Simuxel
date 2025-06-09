@@ -63,6 +63,7 @@ export class AuthController {
           secure: true, // asegúrate de usar HTTPS
           sameSite: "None", // necesario para dominios cruzados (Vercel <-> Render)
           maxAge: 60 * 60 * 1000,
+          domain: "simuxel.onrender.com"
         })
         .status(200)
         .json(userWithoutPassword); // asegúrate de usar `.json()` en vez de `.send()`

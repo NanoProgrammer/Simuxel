@@ -41,6 +41,7 @@ AuthRouter.get('/google/callback',
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: 'None',
+      domain: "simuxel.onrender.com",
       maxAge: 60 * 60 * 1000,
     });
 
