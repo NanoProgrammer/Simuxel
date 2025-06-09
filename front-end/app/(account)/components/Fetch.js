@@ -1,4 +1,4 @@
-const BASE_URL = 'https://simuxel.onrender.com/';
+const BASE_URL = 'https://simuxel.onrender.com';
 
 export async function apiFetch(path, { method = 'GET', body = null, headers = {} } = {}) {
   const options = {
