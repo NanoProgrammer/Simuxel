@@ -4,7 +4,7 @@ export const MiddleCors = ({ AcceptedOrigin }) => {
   return cors({
     origin: (origin, callback) => {
       if (!origin || AcceptedOrigin.includes(origin)) {
-        callback(null, origin); // ✅ importante: no uses "true"
+        callback(null, true); 
       } else {
         callback(new Error('Not allowed by CORS'));
       }
