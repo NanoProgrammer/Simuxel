@@ -23,12 +23,14 @@ export class AuthController {
         name,
         email,
         password: hashedPassword,
-        role: 'user', // o 'admin' si quieres asignarlo manualmente
+        role: "user", // o 'admin'
       });
 
-      res.status(201).send(user); // sin password
+      // Devuelve solo datos públicos
+      const { password: _, ...userWithoutPassword } = user;
+      return res.status(201).json(userWithoutPassword);
     } catch (error) {
-      res.status(500).send(error.message);
+      return res.status(500).json({ error: error.message });
     }
   }
 
@@ -37,12 +39,15 @@ export class AuthController {
 
     try {
       const user = await this.userModel.findByEmail(email);
-      if (!user) return res.status(404).json({ error: "User Does not exists" });
+      if (!user) {
+        return res.status(404).json({ error: "User does not exist" });
+      }
 
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(401).json({ error: "Wrong password" });
+      if (!isMatch) {
+        return res.status(401).json({ error: "Wrong password" });
+      }
 
-      // 👇 incluye el rol en el JWT
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
         SECRET_KEY,
@@ -51,16 +56,18 @@ export class AuthController {
 
       const { password: _, ...userWithoutPassword } = user;
 
+      // ⚠️ Este es el paso importante
       res
         .cookie("access_token", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "None",
+          secure: true, // asegúrate de usar HTTPS
+          sameSite: "None", // necesario para dominios cruzados (Vercel <-> Render)
           maxAge: 60 * 60 * 1000,
         })
-        .send(userWithoutPassword);
+        .status(200)
+        .json(userWithoutPassword); // asegúrate de usar `.json()` en vez de `.send()`
     } catch (error) {
-      res.status(500).send(error.message);
+      return res.status(500).json({ error: error.message });
     }
   }
 }
