@@ -5,7 +5,8 @@ import Link from "next/link";
 import { getMyUser } from "../components/Fetch";
 
 export default async function Account() {
-  const { id, name, email, role } = await getMyUser();
+  try{
+    const { id, name, email, role } = await getMyUser();
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
@@ -123,4 +124,8 @@ export default async function Account() {
       )}
     </main>
   );
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
