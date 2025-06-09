@@ -18,7 +18,7 @@ const API_KEY = process.env.API_SECRET ;
 app.use(MiddleCors({AcceptedOrigin}));
 app.use((req, res, next) => {
   const key = req.headers['x-api-key'];
-  const isValid =['/auth/google','/auth/google/callback'];
+  const isValid =['/auth'];
   const isPublic = isValid.some(route => req.path.startsWith(route));
   if(isPublic ) {
     return next();

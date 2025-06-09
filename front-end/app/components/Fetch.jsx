@@ -1,13 +1,12 @@
 
 const BASE_URL = 'https://simuxel.onrender.com/';
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export async function apiFetch(path, { method = 'GET', body = null, headers = {} } = {}) {
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
       ...headers,
     },
     credentials: 'include', // incluye cookies en todas las solicitudes
