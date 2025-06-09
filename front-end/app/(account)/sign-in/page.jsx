@@ -35,13 +35,16 @@ export default function SignIn() {
     await login(email, password);
     alert('Login exitoso');
   } catch (err) {
-    if(err.message.includes('User not found')) {
+    if(err.message.includes('401')) {
       setError('User not found');
     }
-    if(err.message.includes('Wrong password')) {
-      setError('Wrong password');
+    if(err.message.includes('409')) {
+      setError('user already exists');
     }
-    if(err.message.includes('User already exists')) {
+    if(err.message.includes('400')) {
+      setError('Token inválido o expirado')
+    }
+    if(err.message.includes('404')) {
       setError('User not found');
     }
   
