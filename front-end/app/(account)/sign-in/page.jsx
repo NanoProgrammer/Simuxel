@@ -35,7 +35,8 @@ export default function SignIn() {
     await login(email, password);
     alert('Login exitoso');
   } catch (err) {
-    alert('Error de login: ' + err.message);
+    setError(err.message);
+    return;
   }
 
     setEmail("");
