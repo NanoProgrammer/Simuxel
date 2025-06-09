@@ -1,6 +1,6 @@
-// api.js
-const BASE_URL = 'https://simuxel.onrender.com';
-const API_KEY = process.env.API_SECRET;
+
+const BASE_URL = 'https://simuxel.onrender.com/';
+const API_KEY = process.env.API_KEY;
 
 export async function apiFetch(path, { method = 'GET', body = null, headers = {} } = {}) {
   const options = {
