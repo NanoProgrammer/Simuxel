@@ -38,11 +38,11 @@ export class AuthController {
     try {
       const user = await this.userModel.findByEmail(email)
 
-      if (!user) return res.status(404).send("User not found");
+      if (!user) return res.status(404).send("User does not exist");
 
       // Comparar la contraseña
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(401).send("Invalid credentials");
+      if (!isMatch) return res.status(401).send("Wrong password");
 
       // Generar JWT
       const token = jwt.sign({ id: user.id, email: user.email }, SECRECT_KEY, {
