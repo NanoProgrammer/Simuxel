@@ -35,6 +35,16 @@ export default function SignIn() {
     await login(email, password);
     alert('Login exitoso');
   } catch (err) {
+    if(err.message.includes('User not found')) {
+      setError('User not found');
+    }
+    if(err.message.includes('Wrong password')) {
+      setError('Wrong password');
+    }
+    if(err.message.includes('User already exists')) {
+      setError('User not found');
+    }
+  
     setError(err.message);
     return;
   }
