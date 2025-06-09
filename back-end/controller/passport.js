@@ -19,6 +19,7 @@ passport.use(new GoogleStrategy({
         email,
         password: null,
         provider: 'google',
+        role: 'user',
       });
     }
 

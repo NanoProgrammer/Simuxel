@@ -1,12 +1,12 @@
 import { validateUser, optionalUser } from '../validators/users.js';
-import {UserModel} from '../model/postgres/db.js';
+import { UserModel } from '../model/postgres/db.js';
 
 export class UserController {
-
   constructor({ UserModel }) {
     this.UserModel = UserModel;
   }
-  getAll = async(req, res) => {
+
+  getAll = async (req, res) => {
     const users = await this.UserModel.getAll();
     if (!users || users.length === 0) return res.status(404).send('No users found');
     res.json(users);
@@ -28,7 +28,13 @@ export class UserController {
     const result = validateUser(req.body);
     if (!result.success) return res.status(400).json(result.error);
 
-    const newUser = await this.UserModel.create(result.data);
+    // 👇 Establece 'user' por defecto si no se envía un rol explícito
+    const dataWithRole = {
+      ...result.data,
+      role: result.data.role || 'user',
+    };
+
+    const newUser = await this.UserModel.create(dataWithRole);
     res.status(201).send(newUser);
   }
 

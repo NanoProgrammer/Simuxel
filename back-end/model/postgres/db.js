@@ -1,24 +1,22 @@
 import { PrismaClient } from '@prisma/client';
 
-
 export class UserModel {
-  
   constructor() {
-    const prisma = new PrismaClient();
-    this.prisma = prisma;
+    this.prisma = new PrismaClient();
   }
 
-   async getAll() {
+  async getAll() {
     const users = await this.prisma.user.findMany();
-  return users.map(({ password, ...rest }) => rest);
+    return users.map(({ password, ...rest }) => rest);
   }
 
   async findByEmail(email) {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
-    return user 
+    return user;
   }
+
   async findByEmailNoPassword(email) {
     const user = await this.prisma.user.findUnique({
       where: { email },
@@ -26,6 +24,7 @@ export class UserModel {
         id: true,
         name: true,
         email: true,
+        role: true,         // 👈 AÑADIDO
         createdAt: true,
         updatedAt: true,
       },
@@ -39,6 +38,7 @@ export class UserModel {
     });
     return user ? { ...user, password: undefined } : null;
   }
+
   async update(id, data) {
     const user = await this.prisma.user.update({
       where: { id },
@@ -55,9 +55,11 @@ export class UserModel {
 
   async create(data) {
     const user = await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        role: data.role || 'user', // 👈 AÑADIDO: default si no viene
+      },
     });
     return { ...user, password: undefined };
   }
-
 }

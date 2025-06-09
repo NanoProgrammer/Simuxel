@@ -33,7 +33,7 @@ AuthRouter.get('/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: '/login' }),
   (req, res) => {
     const token = jwt.sign(
-      { id: req.user.id, email: req.user.email },
+      { id: req.user.id, email: req.user.email, role: req.user.role },
       process.env.SECRET_KEY,
       { expiresIn: '7d' }
     );
@@ -66,7 +66,7 @@ AuthRouter.post("/forgot-password", async (req, res) => {
 
   // Generar token JWT (expira en 15 minutos)
   const token = jwt.sign(
-    { id: user.id, email: user.email },
+    { id: user.id, email: user.email, role: user.role },
     process.env.SECRET_KEY,
     { expiresIn: "15m" }
   );

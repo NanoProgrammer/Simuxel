@@ -1,37 +1,32 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import express from 'express';
+import cookieParser from 'cookie-parser';
+
+import { MiddleCors } from './middleware/cors.js';
+import { requireAuth } from './middleware/auth.js';
+
+import { UserModel } from './model/postgres/db.js';
 import UserRouter from './routes/users.js';
-import {UserModel} from './model/postgres/db.js';
-import {MiddleCors} from './middleware/cors.js'
-import cookieParser from "cookie-parser";
 import AuthRouter from './routes/auth.js';
 
-
 const app = express();
-
-const AcceptedOrigin = ['https://simuxel.vercel.app', 'http://localhost:3000'];
 const PORT = process.env.PORT || 3000;
-const UserFunction = new UserModel();
-const API_KEY = process.env.API_SECRET ;
+const AcceptedOrigin = ['https://simuxel.vercel.app', 'http://localhost:3000'];
 
-app.use(MiddleCors({AcceptedOrigin}));
-app.use((req, res, next) => {
-  const key = req.headers['x-api-key'];
-  const isValid =['/auth'];
-  const isPublic = isValid.some(route => req.path.startsWith(route));
-  if(isPublic ) {
-    return next();
-  }
-   else if (key !== API_KEY) {
-    return res.status(403).json({ error: 'Access denied' });
-  }
-  next();
-});
+const UserFunction = new UserModel();
+
+app.use(MiddleCors({ AcceptedOrigin }));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/users', UserRouter({ UserModel: UserFunction }));
+
+// Rutas públicas
 app.use('/auth', AuthRouter);
 
+// Rutas protegidas
+app.use('/users', requireAuth, UserRouter({ UserModel: UserFunction }));
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, () => {
+  console.log(`Secure API running on port ${PORT}`);
+});
