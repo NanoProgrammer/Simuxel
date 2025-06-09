@@ -11,6 +11,6 @@ export const MiddleCors = ({ AcceptedOrigin }) => {
     },
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'x-api-key'],
+    allowedHeaders: ['Content-Type'],
   });
 };
