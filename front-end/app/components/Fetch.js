@@ -22,7 +22,7 @@ export async function apiFetch(path, { method = 'GET', body = null, headers = {}
       throw new Error(data?.error || data?.message || `Error ${res.status}`);
     }
     return data;
-  } catch {
+  } catch  {
     if (!res.ok) {
       throw new Error(`Error ${res.status} - ${res.statusText}`);
     }
