@@ -4,29 +4,29 @@ const SECRET_KEY = process.env.SECRECT_KEY;
 
 export const requireAuth = (req, res, next) => {
   const token = req.cookies.access_token;
-  if (!token) return res.status(401).send("Access denied.");
+  if (!token) return res.status(401).json({ error: "Acess denied" });
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded; // { id, email, role }
     next();
   } catch (err) {
-    return res.status(403).send("Invalid or expired token.");
+    return res.status(403).json({ error: "Invalid or expired token" });
   }
 };
 
 export const requireAdmin = (req, res, next) => {
   const token = req.cookies.access_token;
-  if (!token) return res.status(401).send("Access denied.");
+  if (!token) return res.status(401).json({ error: "Acess denied" });
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     if (decoded.role !== 'admin') {
-      return res.status(403).send("Admin access only.");
+      return res.status(403).json({ error: "Acess denied, acess only for admins" });
     }
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(403).send("Invalid or expired token.");
+    return res.status(403).json({ error: "Invalid or expired token" });
   }
 };

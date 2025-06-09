@@ -17,7 +17,7 @@ const UserRouter = ({ UserModel }) => {
   // 👤 Ruta para cualquier usuario autenticado
   router.get('/me', requireAuth, async (req, res) => {
     const user = await UserModel.findByEmailNoPassword(req.user.email);
-    if (!user) return res.status(404).send("User not found");
+    if (!user) return res.status(404).json({ error: "User not found" });
     res.send(user);
   });
 
