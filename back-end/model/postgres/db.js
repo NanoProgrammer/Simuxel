@@ -57,7 +57,7 @@ export class UserModel {
     const user = await this.prisma.user.create({
       data: {
         ...data,
-        role: data.role || 'user', // 👈 AÑADIDO: default si no viene
+        role: data.role , // 👈 AÑADIDO: default si no viene
       },
     });
     return { ...user, password: undefined };
