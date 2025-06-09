@@ -4,7 +4,6 @@ import { AuthController } from "../controller/Auth.js";
 import passport from 'passport';
 import '../controller/passport.js'
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
 
@@ -13,8 +12,8 @@ const AuthRouter = express.Router();
 const userModel = new UserModel();
 const authController = new AuthController(userModel);
 
-AuthRouter.post("/register", authController.register);
-AuthRouter.post("/login", authController.login);
+AuthRouter.post("/register", authController.register.bind(authController));
+AuthRouter.post("/login", authController.login.bind(authController));
 AuthRouter.post("/logout", (req, res) => {
       res.clearCookie("access_token", {
   httpOnly: true,

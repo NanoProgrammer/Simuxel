@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Rutas públicas
-app.use('/auth', AuthRouter);
+app.use('/auth', AuthRouter());
 
 // Rutas protegidas
 app.use('/users', requireAuth, UserRouter({ UserModel: UserFunction }));

@@ -14,7 +14,7 @@ export class AuthController {
     try {
       const existing = await this.userModel.findByEmail(email);
       if (existing) {
-        return res.status(409).json({ error: "User already exists" });
+        return res.status(409).send("User already exists");
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,13 +23,12 @@ export class AuthController {
         name,
         email,
         password: hashedPassword,
-        role: 'user', // puedes cambiar a 'admin' manualmente si quieres
+        role: 'user', // o 'admin' si quieres asignarlo manualmente
       });
 
-      const { password: _, ...userWithoutPassword } = user;
-      res.status(201).json(userWithoutPassword);
+      res.status(201).send(user); // sin password
     } catch (error) {
-      res.status(500).json({ error: error.message || "Internal server error" });
+      res.status(500).send(error.message);
     }
   }
 
@@ -38,15 +37,12 @@ export class AuthController {
 
     try {
       const user = await this.userModel.findByEmail(email);
-      if (!user) {
-        return res.status(404).json({ error: "User does not exist" });
-      }
+      if (!user) return res.status(404).send("User does not exist");
 
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(401).json({ error: "Wrong password" });
-      }
+      if (!isMatch) return res.status(401).send("Wrong password");
 
+      // 👇 incluye el rol en el JWT
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
         SECRET_KEY,
@@ -62,9 +58,9 @@ export class AuthController {
           sameSite: "None",
           maxAge: 60 * 60 * 1000,
         })
-        .json(userWithoutPassword);
+        .send(userWithoutPassword);
     } catch (error) {
-      res.status(500).json({ error: error.message || "Internal server error" });
+      res.status(500).send(error.message);
     }
   }
 }
