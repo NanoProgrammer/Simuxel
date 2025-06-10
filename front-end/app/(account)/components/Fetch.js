@@ -1,22 +1,13 @@
 const BASE_URL = 'https://simuxel.onrender.com';
 
 export async function apiFetch(path, { method = 'GET', body = null, headers = {} } = {}) {
-  // Extrae token desde cookie si existe (opcional para fallback)
-  const token = typeof document !== 'undefined'
-    ? document.cookie
-        .split('; ')
-        .find(row => row.startsWith('access_token='))
-        ?.split('=')[1]
-    : null;
-
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
-    credentials: 'include', // Enviar cookies si están disponibles
+    credentials: 'include',
   };
 
   if (body) {
@@ -45,55 +36,59 @@ export async function apiFetch(path, { method = 'GET', body = null, headers = {}
 
   return data;
 }
+
+// ---------- AUTH ----------
 export async function login(email, password) {
-  return await apiFetch('/auth/login', {
+  return apiFetch('/login', {
     method: 'POST',
     body: { email, password },
   });
 }
 
 export async function logout() {
-  return await apiFetch('/auth/logout', {
+  return apiFetch('/logout', {
     method: 'POST',
   });
 }
 
 export async function register({ name, email, password }) {
-  return await apiFetch('/auth/register', {
+  return apiFetch('/register', {
     method: 'POST',
     body: { name, email, password },
   });
 }
-export async function getMyUser() {
-  return await apiFetch('/users/me', { method: 'GET' });
-}
 
+// ---------- USERS ----------
 export async function getAllUsers() {
-  return await apiFetch('/users', { method: 'GET' });
+  return apiFetch('/users', { method: 'GET' });
 }
 
 export async function getUserById(id) {
-  return await apiFetch(`/users/${id}`, { method: 'GET' });
+  return apiFetch(`/users/${id}`, { method: 'GET' });
 }
 
 export async function getUserByEmail(email) {
-  return await apiFetch(`/users/email/${email}`, { method: 'GET' });
+  return apiFetch(`/users/email/${email}`, { method: 'GET' });
+}
+
+export async function getMyUser() {
+  return apiFetch('/me', { method: 'GET' });
 }
 
 export async function createUser(data) {
-  return await apiFetch('/users', {
+  return apiFetch('/users', {
     method: 'POST',
     body: data,
   });
 }
 
 export async function updateUser(id, data) {
-  return await apiFetch(`/users/${id}`, {
+  return apiFetch(`/users/${id}`, {
     method: 'PUT',
     body: data,
   });
 }
 
 export async function deleteUser(id) {
-  return await apiFetch(`/users/${id}`, { method: 'DELETE' });
+  return apiFetch(`/users/${id}`, { method: 'DELETE' });
 }
