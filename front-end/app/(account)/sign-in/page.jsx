@@ -32,7 +32,14 @@ export default function SignIn() {
     }
 
     try {
-    await login(email, password);
+    await fetch("https://simuxel.onrender.com/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+      
+    });
   } catch (err) {
   
     setError(err.message);

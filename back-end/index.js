@@ -130,7 +130,7 @@ app.get("/me", async (req, res) => {
     const decoded = jwt.verify(token, SECRET_KEY);
     const user = await userModel.findByEmailNoPassword(decoded.email);
     if (!user) return res.status(404).send("User not found");
-    res.send(user);
+    res.json(user);
   } catch (err) {
     res.status(403).send("Invalid or expired token");
   }
