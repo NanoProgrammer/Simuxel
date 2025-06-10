@@ -6,6 +6,12 @@ const UserRouter = ({ UserModel }) => {
   const router = express.Router();
   const userController = new UserController({ UserModel });
 
+  router.get('/me', requireAuth, async (req, res) => {
+    const user = await UserModel.findByEmailNoPassword(req.user.email);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json(user);
+  });
+  
   // 👮‍♂️ Solo admins
   router.get('/', requireAuth, requireAdmin, userController.getAll);
   router.get('/email/:email', requireAuth, requireAdmin, userController.getByEmail);
@@ -14,12 +20,7 @@ const UserRouter = ({ UserModel }) => {
   router.put('/:id', requireAuth, requireAdmin, userController.update);
   router.delete('/:id', requireAuth, requireAdmin, userController.delete);
 
-  // 👤 Ruta para cualquier usuario autenticado
-  router.get('/me', requireAuth, async (req, res) => {
-    const user = await UserModel.findByEmailNoPassword(req.user.email);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    res.json(user);
-  });
+
 
   return router;
 };

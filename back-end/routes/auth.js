@@ -12,8 +12,8 @@ const AuthRouter = express.Router();
 const userModel = new UserModel();
 const authController = new AuthController(userModel);
 
-AuthRouter.post("/register", authController.register.bind(authController));
-AuthRouter.post("/login", authController.login.bind(authController));
+AuthRouter.post("/register", authController.register(authController));
+AuthRouter.post("/login", authController.login(authController));
 AuthRouter.post("/logout", (req, res) => {
       res.clearCookie("access_token", {
   httpOnly: true,
@@ -41,7 +41,6 @@ AuthRouter.get('/google/callback',
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: 'None',
-      domain: "simuxel.onrender.com",
       maxAge: 60 * 60 * 1000,
     });
 
