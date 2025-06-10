@@ -15,7 +15,6 @@ const UserRouter = ({ UserModel }) => {
   // 👮‍♂️ Solo admins
   router.get('/', requireAuth, requireAdmin, userController.getAll);
   router.get('/email/:email', requireAuth, requireAdmin, userController.getByEmail);
-  router.get('/:id', requireAuth, requireAdmin, userController.getById);
   router.post('/', requireAuth, requireAdmin, userController.create);
   router.put('/:id', requireAuth, requireAdmin, userController.update);
   router.delete('/:id', requireAuth, requireAdmin, userController.delete);
