@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards, HttpCode, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import {ResetPasswordDto} from './dto/newpassword.dto'
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
  interface RequestWithUser extends Request {
@@ -41,6 +41,32 @@ resetPassword(@Body() dto: ResetPasswordDto) {
   async refresh(@Req() req: RequestWithUser) {
   const { accessToken } = await this.authService.generateTokens(req.user.id, req.user.email);
   return { accessToken };
+}
+
+@Get('google')
+@UseGuards(AuthGuard('google'))
+googleAuth() {} 
+
+@Get('google/callback')
+@UseGuards(AuthGuard('google'))
+async googleCallback(@Req() req, @Res() res: Response) {
+  const userData = req.user;
+  const user = await this.authService.findOrCreateGoogleUser(userData);
+  const tokens = await this.authService.generateTokens(user.id, user.email);
+
+  const html = `
+    <script>
+      window.opener.postMessage(
+        {
+          accessToken: '${tokens.accessToken}',
+          refreshToken: '${tokens.refreshToken}',
+        },
+        '*'
+      );
+      window.close();
+    </script>
+  `;
+  res.send(html);
 }
 
 }

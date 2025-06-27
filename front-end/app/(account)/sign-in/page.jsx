@@ -1,14 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AccountLayout from "../layout";
-import { login } from '../components/Fetch';
+import AccountLayout from "../layout";;
 
 export default function SignIn() {
-    const router = useRouter();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -32,25 +33,49 @@ export default function SignIn() {
     }
 
     try {
-    await fetch("https://simuxel.onrender.com/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-      
-    });
-  } catch (err) {
-  
-    setError(err.message);
-    return;
-  }
+      await fetch("https://simuxel.onrender.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+    } catch (err) {
+      setError(err.message);
+      return;
+    }
 
-  router.push("/user");
+    router.push("/user");
     setEmail("");
     setPassword("");
   }
+function handleGoogleLogin() {
+  let link;
+  if (process.env.NODE_ENV === "development") {
+    link = "http://localhost:4000/auth/google";
+  } else {
+    link = "https://simuxel.onrender.com/auth/google";
+  }
+  const popup = window.open(
+    link,
+    "_blank",
+    "width=500,height=600"
+  );
 
+  // Escuchá el mensaje del popup
+  window.addEventListener("message", (event) => {
+    if (!event?.data?.accessToken) return;
+
+    const { accessToken, refreshToken } = event.data;
+
+    // ✅ Acá tenés los tokens
+    console.log("Access Token:", accessToken);
+    console.log("Refresh Token:", refreshToken);
+
+    // Podés redirigir, guardar tokens, etc.
+    router.push("/user");
+  });
+}
   return (
     <AccountLayout>
       <div className="w-screen h-screen flex items-center justify-center px-4 overflow-hidden">
@@ -110,17 +135,16 @@ export default function SignIn() {
           >
             Sign In
           </button>
-          <a href="https://simuxel.onrender.com/auth/google/">
-            <div className="mt-4">
-              <button
-                type="button"
-                className="w-full flex items-center justify-center gap-3 border border-white/20 text-white py-3 rounded-lg hover:bg-white/10 transition-colors duration-300"
-              >
-                <img src="/google.png" alt="Google G" className="w-5 h-5" />
-                <span>Sign in with Google</span>
-              </button>
-            </div>
-          </a>
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className="w-full flex items-center justify-center gap-3 border border-white/20 text-white py-3 rounded-lg hover:bg-white/10 transition-colors duration-300"
+            >
+              <img src="/google.png" alt="Google G" className="w-5 h-5" />
+              <span>Sign in with Google</span>
+            </button>
+          </div>
           <div className="mt-6 text-sm text-center text-white/70 space-y-2">
             <p>
               Don’t have an account?{" "}

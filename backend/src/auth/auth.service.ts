@@ -146,5 +146,24 @@ async resetPassword(token: string, newPassword: string) {
   }
 }
 
+async findOrCreateGoogleUser(profile: { email: string; firstName: string; lastName: string }) {
+  const user = await this.prisma.user.findUnique({ where: { email: profile.email } });
+
+  if (user) {
+    // Ya existe, lo usamos tal como está
+    return user;
+  }
+
+  // Si no existe, lo creamos con password nula (ya hiciste password opcional)
+  return this.prisma.user.create({
+    data: {
+      email: profile.email,
+      name: `${profile.firstName} ${profile.lastName}`,
+      password: null, // mejor que usar 'GOOGLE_AUTH_USER'
+    },
+  });
+}
+
+
 }
 
