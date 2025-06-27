@@ -52,6 +52,7 @@ googleAuth() {}
 async googleCallback(@Req() req, @Res() res: Response) {
   try {
     const userData = req.user;
+    
 
     if (!userData || !userData.email) {
       return res.status(400).send('Google login failed');
@@ -67,6 +68,7 @@ async googleCallback(@Req() req, @Res() res: Response) {
           {
             accessToken: '${tokens.accessToken}',
             refreshToken: '${tokens.refreshToken}',
+            user: ${JSON.stringify(user)}
           },
           '*'
         );
