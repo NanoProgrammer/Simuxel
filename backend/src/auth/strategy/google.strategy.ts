@@ -14,13 +14,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
 
-  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const { name, emails } = profile;
-    const user = {
-      email: emails[0].value,
-      firstName: name.givenName,
-      lastName: name.familyName,
-    };
-    done(null, user); // ← este user se pasa a `@Req() req.user` en el controlador
-  }
+  async validate(accessToken: string, refreshToken: string, profile: any): Promise<any> {
+  const { name, emails } = profile;
+
+  return {
+    email: emails?.[0]?.value,
+    firstName: name?.givenName,
+    lastName: name?.familyName,
+  };
+}
+
 }

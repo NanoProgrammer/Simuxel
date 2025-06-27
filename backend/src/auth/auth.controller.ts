@@ -50,23 +50,35 @@ googleAuth() {}
 @Get('google/callback')
 @UseGuards(AuthGuard('google'))
 async googleCallback(@Req() req, @Res() res: Response) {
-  const userData = req.user;
-  const user = await this.authService.findOrCreateGoogleUser(userData);
-  const tokens = await this.authService.generateTokens(user.id, user.email);
+  try {
+    const userData = req.user;
 
-  const html = `
-    <script>
-      window.opener.postMessage(
-        {
-          accessToken: '${tokens.accessToken}',
-          refreshToken: '${tokens.refreshToken}',
-        },
-        '*'
-      );
-      window.close();
-    </script>
-  `;
-  res.send(html);
+    if (!userData || !userData.email) {
+      return res.status(400).send('Google login failed');
+    }
+
+    const user = await this.authService.findOrCreateGoogleUser(userData);
+
+    const tokens = await this.authService.generateTokens(user.id, user.email);
+
+    const html = `
+      <script>
+        window.opener.postMessage(
+          {
+            accessToken: '${tokens.accessToken}',
+            refreshToken: '${tokens.refreshToken}',
+          },
+          '*'
+        );
+        window.close();
+      </script>
+    `;
+
+    return res.send(html);
+  } catch (error) {
+    console.error('Google callback error:', error);
+    return res.status(500).send('Internal Server Error during Google OAuth callback.');
+  }
 }
 
 }
