@@ -14,7 +14,7 @@ export default function Account() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const userData = await fetch("https://simuxel.onrender.com/me", {
+        const userData = await fetch("https://simuxel.onrender.com/user/me", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
