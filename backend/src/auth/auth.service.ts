@@ -159,7 +159,7 @@ async findOrCreateGoogleUser(profile: { email: string; firstName: string; lastNa
     data: {
       email: profile.email,
       name: `${profile.firstName} ${profile.lastName}`,
-      password: null, // mejor que usar 'GOOGLE_AUTH_USER'
+      password: "DEFAULT_PASSWORD", // mejor que usar 'GOOGLE_AUTH_USER'
     },
   });
 }
