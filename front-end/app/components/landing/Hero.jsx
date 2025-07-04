@@ -5,7 +5,7 @@ import gsap from "gsap";
 import Header from "./Header";
 import { Button } from "./Button";
 import Link from "next/link";
-
+import SetupSection from './section'
 export default function Hero() {
   const bgRef = useRef(null);
   const titleRef = useRef(null);
@@ -168,6 +168,7 @@ export default function Hero() {
       <Header />
 
       {/* Contenido principal */}
+      <SetupSection />
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 min-h-[120px]">
         <h1
           ref={titleRef}
@@ -179,6 +180,7 @@ export default function Hero() {
             </span>
           ))}
         </h1>
+
         <p className="text-2xl md:text-4xl mx-8 font-extrabold tracking-wider text-center">
           3D Building Performance Simulator
         </p>
